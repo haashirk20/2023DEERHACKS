@@ -23,13 +23,7 @@ def mainScreen():
                 widget.destroy()
         
             game_frame.pack(fill=BOTH, expand=True)
-
-        def return_from_test_mode():
-            test_frame.pack_forget()
-            for widget in test_frame.winfo_children():
-                widget.destroy()
-                
-            game_frame.pack(fill=BOTH, expand=True)
+        
 
         def learn():
             #get first card
@@ -38,7 +32,6 @@ def mainScreen():
             info.append(name_desc)
             def toggle_name():
                 flashcard_button.configure(text=info[0][0], command=toggle_desc)
-                
                 
             def toggle_desc():
                 flashcard_button.configure(text=info[0][1], command=toggle_name)
@@ -52,7 +45,7 @@ def mainScreen():
             #new screen so fade out
             game_frame.pack_forget()
             #create 3 buttons
-            exit_img = ImageTk.PhotoImage(file="images/exit.png")
+            exit_img = ImageTk.PhotoImage(file="images/left.png")
             refLabel = Label(image=exit_img) 
             refLabel.image = exit_img # Making a copy so image isn't deleted during garbage collection
 
@@ -62,87 +55,146 @@ def mainScreen():
 
             
             exit_button = CTkButton(master=learn_frame, 
-                                    text= "", 
-                                    image=exit_img, 
-                                    command=return_to_game)
+                                    corner_radius=5, 
+                                    height=20, 
+                                    width=30,
+                                    border_spacing=10, 
+                                    text="",
+                                    image=exit_img,
+                                    hover_color=("gray70", "gray30"),
+                                    command=return_to_game,
+                                    font=("Arial", 10))
             flashcard_button = CTkButton(learn_frame, 
-                                         corner_radius=0, 
-                                         height=50, 
-                                         width=70,
-                                         border_spacing=10, 
-                                         text=info[0][0], 
-                                         text_color=("gray10", "gray90"), 
-                                         hover_color=("gray70", "gray30"),
-                                         command=toggle_desc,
-                                         wraplength=80, 
-                                         justify=LEFT,
-                                         font=("Helvetica", 40))
+                                    corner_radius=5, 
+                                    height=20, 
+                                    width=50,
+                                    border_spacing=10, 
+                                    text=info[0][0], 
+                                    text_color=("gray10", "gray90"), 
+                                    hover_color=("gray70", "gray30"),
+                                    command=toggle_desc,
+                                    font=("Arial", 30))
             load_new_flashcard_button = CTkButton(master=learn_frame, 
-                                                  text = "", 
-                                                  image=next_img, 
-                                                  command= changeCard)
+                                    corner_radius=5, 
+                                    height=20, 
+                                    width=30,
+                                    text="",
+                                    border_spacing=10, 
+                                    image=next_img,
+                                    hover_color=("gray70", "gray30"),
+                                    command=changeCard,
+                                    font=("Arial", 10))
 
             #place buttons
             exit_button.place(relx=0.1, rely=0.7, anchor=SW)
-            flashcard_button.place(relx=0.5, rely=0.2, anchor=N)
+            flashcard_button.pack(side=TOP, fill=X, pady=200)
             load_new_flashcard_button.place(relx=0.9, rely=0.7, anchor=SE)
 
-            learn_frame.pack()
+            learn_frame.pack(fill=BOTH, expand=True)
         def test():
             game_frame.pack_forget()
+            def return_to_game():
+                test_frame.pack_forget()
+                for widget in test_frame.winfo_children():
+                    widget.destroy()
             
-            test_frame.pack()
+                game_frame.pack(fill=BOTH, expand=True)
+
+            inst1Label = CTkLabel(test_frame, text="", image=inst1_img)
+            inst2Label = CTkLabel(test_frame, text="", image=inst2_img)
+            inst3Label = CTkLabel(test_frame, text="", image=inst3_img)
+            back_button = CTkButton(master=test_frame,
+                                    corner_radius=5,
+                                    height=20,
+                                    width=30,
+                                    border_spacing=10,
+                                    text="",
+                                    image=back_img,
+                                    hover_color=("gray70", "gray30"),
+                                    command=return_to_game,
+                                    )
+            
+            back_button.place(relx=0.1, rely=0.8, anchor=SW)
+            inst1Label.place(relx=0.5, rely=0.1, anchor=N)
+            inst2Label.place(relx=0.5, rely=0.25, anchor=N)
+            inst3Label.place(relx=0.5, rely=0.4, anchor=N)
+            test_frame.pack(fill=BOTH, expand=True)
+            
+        def start_screen():
+            game_frame.pack_forget()
+            main_menu_frame.pack(fill=BOTH, expand=True)
+
         
         #generate buttons for 2 gamemodes
         #create button for mode selection
-        learnbutton = CTkButton(master=game_frame, text="learn", command=learn).place(relx=0.4, rely=0.5, anchor=CENTER)
-        testbutton = CTkButton(master=game_frame, text="test", command=test).place(relx=0.6, rely=0.5, anchor=CENTER)
+        learnbutton = CTkButton(master=game_frame, 
+                                text="", 
+                                image=learning_img,
+                                command=learn).place(relx=0.5, rely=0.4, anchor=CENTER)
+        testbutton = CTkButton(master=game_frame, 
+                                text="", 
+                                image=about_img,
+                                command=test).place(relx=0.5, rely=0.6, anchor=CENTER)
+        backButton = CTkButton(master=game_frame,
+                                corner_radius=5,
+                                height=20,
+                                width=30,
+                                border_spacing=10,
+                                text="",
+                                image=back_img,
+                                command=start_screen,
+                                ).place(relx=0.5, rely=0.8, anchor=CENTER)
+            
         game_frame.pack(fill=BOTH, expand=True)
-
-
-
-    def start_screen():
-        game_frame.pack_forget()
-        for widget in game_frame.winfo_children():
-            widget.destroy()
-        main_menu_frame.pack(fill=BOTH, expand=True)
 
     #window
     set_appearance_mode("System")  # Modes: system (default), light, dark
     set_default_color_theme("blue")  # Themes: blue (default), dark-blue, green
     root = CTk()
-    root.geometry("1000x1000")
+    root.geometry("800x600")
     root.title("Hackathon App")
 
-
+    #initialize images
+    title_img = ImageTk.PhotoImage(Image.open("images/title.png"))
+    start_img = ImageTk.PhotoImage(Image.open("images/start!.png"))
+    quit_img = ImageTk.PhotoImage(Image.open("images/quit.png"))
+    learning_img = ImageTk.PhotoImage(Image.open("images/startlearning!.png"))
+    about_img = ImageTk.PhotoImage(Image.open("images/HowTo.png"))
+    inst1_img = ImageTk.PhotoImage(Image.open("images/inst1.png"))
+    inst2_img = ImageTk.PhotoImage(Image.open("images/inst2.png"))
+    inst3_img = ImageTk.PhotoImage(Image.open("images/inst3.png"))
+    back_img = ImageTk.PhotoImage(Image.open("images/back.png"))
+    
     #start screen frame
-    main_menu_frame = CTkFrame(master=root, height=1000,width=1000)
+    main_menu_frame = CTkFrame(master=root, height=800,width=600)
     main_menu_frame.pack_propagate(0)
     main_menu_frame.pack(fill=BOTH, expand=True)
 
-    #button to main menu
-    start_button = CTkButton(master=main_menu_frame, text="Start", command=game_screen).place(relx=0.4, rely=0.5, anchor=CENTER)
-    #exit
-    quit_button = CTkButton(master=main_menu_frame, text="Quit", command=root.quit).place(relx=0.6,rely=0.5, anchor=CENTER)
-    #title image 
-    title_img = ImageTk.PhotoImage(Image.open("images/title.png"))
-    title_label = CTkLabel(main_menu_frame, image=title_img).place(relx=0.5, rely=0.2, anchor=CENTER)
+    #main menu buttons
+    start_button = CTkButton(master=main_menu_frame, 
+                             text="", 
+                             image=start_img, 
+                             command=game_screen).place(relx=0.3, rely=0.5, anchor=CENTER)
+    quit_button = CTkButton(master=main_menu_frame, 
+                            text="", 
+                            image=quit_img,
+                            command=root.quit).place(relx=0.7,rely=0.5, anchor=CENTER)
+    
+    #title
+    title_label = CTkLabel(main_menu_frame, 
+                           image=title_img,
+                           text="").place(relx=0.5, rely=0.2, anchor=CENTER)
 
     #game screen
-    game_frame = CTkFrame(master=root, height=1000,width=1000)
+    game_frame = CTkFrame(master=root, height=800,width=600)
     game_frame.pack_propagate(0)
 
     #learn screen
-    learn_frame = CTkFrame(master=root, height=1000,width=1000)
+    learn_frame = CTkFrame(master=root, height=800,width=600)
     learn_frame.pack_propagate(0)
 
     #test screen
-    test_frame = CTkFrame(master=root, height=1000,width=1000)
+    test_frame = CTkFrame(master=root, height=800,width=600)
     #test_frame.pack_propagate(0)
 
     root.mainloop()
-
-
-
-
-
