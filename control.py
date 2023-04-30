@@ -18,7 +18,7 @@ def resetVariables(choices: list[str], playerChoice: int):
     choices = []
     playerChoice = -1
     
-def newCard(flashcard: Flashcard):
+def newCard(flashcard):
     #Get a random flashcard and return the tuple (prompt, answer)
     return (flashcard.prompt, flashcard.answer)
     
@@ -29,9 +29,9 @@ def newQuestion():
 
     used_indexes = []
     for x in range(1,4):
-        rand = random.randint(0,len(flashcards.globalFlashcardIDList))
+        rand = random.randrange(0,len(flashcards.globalFlashcardIDList))
         while(rand in used_indexes):
-            rand = random.randint(0,len(flashcards.globalFlashcardIDList))
+            rand = random.randrange(0,len(flashcards.globalFlashcardIDList))
         used_indexes.append(rand)
         id = flashcards.globalFlashcardIDList[rand]
         newFlash = flashcards.globalContentBlockDict[id]

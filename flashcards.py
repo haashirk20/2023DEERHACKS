@@ -32,6 +32,7 @@ def extract_info_from_CSV(file: str):
 		for row in csv_reader:
 			word, desc = row
 			make_flashcard(word, desc)
+	start_learn()
 		
 
 def write_to_CSV(file: str, newWord: str, newDesc: str):
@@ -46,7 +47,7 @@ def make_flashcard(prompt: str, desc: str) -> None:
 	newlyAdded = Flashcard(prompt, desc)
 	globalContentBlockDict[newlyAdded.id] = newlyAdded
 	globalFlashcardIDList.append(newlyAdded.id)
-	print(f"ID: {newlyAdded.id} | prompt: {newlyAdded.prompt} | answer: {newlyAdded.answer}")
+	# print(f"ID: {newlyAdded.id} | prompt: {newlyAdded.prompt} | answer: {newlyAdded.answer}")
 
 def get_random_flashcard() -> Flashcard:
 	global lastUsedIndexPos
@@ -56,6 +57,11 @@ def get_random_flashcard() -> Flashcard:
 	contentBlockID = globalFlashcardIDList[lastUsedIndexPos]
 	lastUsedIndexPos += 1
 	return globalContentBlockDict[contentBlockID]
+
+#def getRandom():
+    #random = random.randint(0,len(globalFlashcardIDList))
+    #newFlash = flashcards.globalContentBlockDict[random]
+    #return newFlash
 
 def start_learn():
 	global lastUsedIndexPos
