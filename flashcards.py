@@ -50,7 +50,7 @@ def make_flashcard(prompt: str, desc: str) -> None:
 
 def get_random_flashcard() -> Flashcard:
 	global lastUsedIndexPos
-	[print(globalContentBlockDict[f].prompt) for f in globalFlashcardIDList]
+	#[print(globalContentBlockDict[f].prompt) for f in globalFlashcardIDList]
 	if lastUsedIndexPos == len(globalFlashcardIDList):
 		return "ALL FLASHCARDS VISITED"
 	contentBlockID = globalFlashcardIDList[lastUsedIndexPos]
